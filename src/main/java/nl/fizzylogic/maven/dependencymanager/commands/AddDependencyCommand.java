@@ -3,6 +3,7 @@ package nl.fizzylogic.maven.dependencymanager.commands;
 import jakarta.inject.Inject;
 import nl.fizzylogic.maven.dependencymanager.MavenDependencyResolver;
 import nl.fizzylogic.maven.dependencymanager.ProjectModelEditor;
+import nl.fizzylogic.maven.dependencymanager.model.ResolvedDependency;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
@@ -44,7 +45,7 @@ public class AddDependencyCommand implements Runnable {
                              (coordinates.getVersion() != null ? ":" + coordinates.getVersion() : " (resolving latest version...)"));
             
             // Resolve dependency version
-            MavenDependencyResolver.ResolvedDependency resolved = dependencyResolver.resolveDependency(coordinates);
+            ResolvedDependency resolved = dependencyResolver.resolveDependency(coordinates);
             
             if (resolved == null) {
                 System.err.println("Error: Could not resolve dependency " + coordinates.getGroupId() + ":" + coordinates.getArtifactId());

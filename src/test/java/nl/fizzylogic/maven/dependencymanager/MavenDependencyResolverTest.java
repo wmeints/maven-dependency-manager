@@ -1,6 +1,7 @@
 package nl.fizzylogic.maven.dependencymanager;
 
 import nl.fizzylogic.maven.dependencymanager.commands.AddDependencyCommand;
+import nl.fizzylogic.maven.dependencymanager.model.ResolvedDependency;
 import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -87,7 +88,7 @@ class MavenDependencyResolverTest {
         AddDependencyCommand.DependencyCoordinates coordinates = 
             new AddDependencyCommand.DependencyCoordinates("org.junit.jupiter", "junit-jupiter", "5.8.2");
         
-        MavenDependencyResolver.ResolvedDependency resolved = 
+        ResolvedDependency resolved = 
             resolverService.resolveDependency(coordinates);
         
         assertNotNull(resolved);
@@ -106,7 +107,7 @@ class MavenDependencyResolverTest {
         AddDependencyCommand.DependencyCoordinates coordinates = 
             new AddDependencyCommand.DependencyCoordinates("org.junit.jupiter", "junit-jupiter", null);
         
-        MavenDependencyResolver.ResolvedDependency resolved = 
+        ResolvedDependency resolved = 
             resolverService.resolveDependency(coordinates);
         
         assertNotNull(resolved);
@@ -117,8 +118,8 @@ class MavenDependencyResolverTest {
 
     @Test
     void testResolvedDependencyToString() {
-        MavenDependencyResolver.ResolvedDependency resolved = 
-            new MavenDependencyResolver.ResolvedDependency("org.springframework", "spring-core", "5.3.21");
+        ResolvedDependency resolved = 
+            new ResolvedDependency("org.springframework", "spring-core", "5.3.21");
         
         assertEquals("org.springframework:spring-core:5.3.21", resolved.toString());
     }

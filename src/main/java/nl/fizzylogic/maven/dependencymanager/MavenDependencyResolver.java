@@ -1,6 +1,7 @@
 package nl.fizzylogic.maven.dependencymanager;
 
 import nl.fizzylogic.maven.dependencymanager.commands.AddDependencyCommand;
+import nl.fizzylogic.maven.dependencymanager.model.ResolvedDependency;
 import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -109,35 +110,4 @@ public class MavenDependencyResolver {
         }
     }
 
-    /**
-     * Value class representing a resolved dependency with its version.
-     */
-    public static class ResolvedDependency {
-        private final String groupId;
-        private final String artifactId;
-        private final String version;
-
-        public ResolvedDependency(String groupId, String artifactId, String version) {
-            this.groupId = groupId;
-            this.artifactId = artifactId;
-            this.version = version;
-        }
-
-        public String getGroupId() {
-            return groupId;
-        }
-
-        public String getArtifactId() {
-            return artifactId;
-        }
-
-        public String getVersion() {
-            return version;
-        }
-
-        @Override
-        public String toString() {
-            return groupId + ":" + artifactId + ":" + version;
-        }
-    }
 }
