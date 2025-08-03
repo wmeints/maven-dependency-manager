@@ -16,6 +16,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <spotless.version>2.43.0</spotless.version>
+    <jreleaser.version>1.13.1</jreleaser.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -196,6 +197,30 @@
             </importOrder>
             <formatAnnotations/>
           </java>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jreleaser</groupId>
+        <artifactId>jreleaser-maven-plugin</artifactId>
+        <version>${jreleaser.version}</version>
+        <configuration>
+          <jreleaser>
+            <release>
+              <github>
+                <skipTag>true</skipTag>
+                <skipRelease>false</skipRelease>
+                <sign>false</sign>
+                <draft>false</draft>
+                <prerelease>
+                  <pattern>.*-SNAPSHOT</pattern>
+                </prerelease>
+                <changelog>
+                  <formatted>ALWAYS</formatted>
+                  <preset>conventional-commits</preset>
+                </changelog>
+              </github>
+            </release>
+          </jreleaser>
         </configuration>
       </plugin>
     </plugins>

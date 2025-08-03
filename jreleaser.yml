@@ -1,0 +1,142 @@
+# JReleaser configuration for Maven Dependency Manager
+environment:
+  properties:
+    artifactsDir: out/jreleaser/assemble/mdm/archive
+
+project:
+  name: mdm
+  description: Maven Dependency Manager - A CLI tool for managing Maven dependencies
+  longDescription: |
+    Maven Dependency Manager (mdm) is a command-line tool built with Quarkus that helps developers
+    manage Maven dependencies. It provides functionality to search for dependencies in Maven
+    repositories and add them to projects.
+  links:
+    homepage: "https://github.com/wmeints/maven-dependency-manager/"
+  authors:
+    - "Willem Meints"
+  license: Apache-2.0
+  inceptionYear: 2024
+  stereotype: CLI
+
+release:
+  github:
+    owner: "{{gitService.owner}}"
+    name: "{{gitService.name}}"
+    token: "{{secrets.GITHUB_TOKEN}}"
+    tagName: "{{projectVersion}}"
+    releaseName: "Release {{projectVersion}}"
+    overwrite: true
+    sign: false
+    draft: false
+    prerelease:
+      pattern: ".*-(alpha|beta|rc|snapshot).*"
+    changelog:
+      formatted: ALWAYS
+      preset: conventional-commits
+      contributors:
+        format: "- {{contributorName}}"
+      labelers:
+        - label: 'feature'
+          title: 'feat:'
+        - label: 'bug'
+          title: 'fix:'
+        - label: 'task'
+          title: 'chore:'
+      categories:
+        - title: '🚀 Features'
+          labels:
+            - 'feature'
+        - title: '🐛 Bug Fixes'
+          labels:
+            - 'bug'
+        - title: '🧰 Tasks'
+          labels:
+            - 'task'
+      hide:
+        categories:
+          - 'merge'
+        contributors:
+          - 'GitHub'
+
+distributions:
+  mdm:
+    type: NATIVE_IMAGE
+    stereotype: CLI
+    executable:
+      name: mdm
+      windowsExtension: exe
+    artifacts:
+      - path: "{{artifactsDir}}/mdm-{{projectVersion}}-linux-x86_64.zip"
+        platform: linux-x86_64
+      - path: "{{artifactsDir}}/mdm-{{projectVersion}}-linux-x86_64.tar.gz"
+        platform: linux-x86_64
+      - path: "{{artifactsDir}}/mdm-{{projectVersion}}-osx-x86_64.zip"
+        platform: osx-x86_64
+      - path: "{{artifactsDir}}/mdm-{{projectVersion}}-osx-x86_64.tar.gz"
+        platform: osx-x86_64
+      - path: "{{artifactsDir}}/mdm-{{projectVersion}}-osx-aarch_64.zip"
+        platform: osx-aarch_64
+      - path: "{{artifactsDir}}/mdm-{{projectVersion}}-osx-aarch_64.tar.gz"
+        platform: osx-aarch_64
+      - path: "{{artifactsDir}}/mdm-{{projectVersion}}-windows-x86_64.zip"
+        platform: windows-x86_64
+
+    brew:
+      active: ALWAYS
+      multiPlatform: true
+      formulaName: mdm
+      repository:
+        owner: "{{gitService.owner}}"
+        name: homebrew-tap
+
+    scoop:
+      active: ALWAYS
+      repository:
+        owner: "{{gitService.owner}}"
+        name: scoop-bucket
+      bucket:
+        name: "{{scoopBucketName}}"
+
+    chocolatey:
+      active: ALWAYS
+      repository:
+        owner: "{{gitService.owner}}"
+        name: chocolatey-packages
+      bucket:
+        name: "{{chocolateyBucketName}}"
+      packageName: mdm
+      packageVersion: "{{projectVersion}}"
+      packageSourceUrl: "https://github.com/{{gitService.owner}}/{{gitService.name}}"
+
+    snapcraft:
+      active: ALWAYS
+      snap: mdm
+      base: core22
+      grade: stable
+      confinement: strict
+      localPlugs:
+        - home
+        - network
+
+    docker:
+      active: ALWAYS
+      repository:
+        name: "{{gitService.owner}}/mdm"
+      labels:
+        'org.opencontainers.image.title': '{{projectName}}'
+        'org.opencontainers.image.description': '{{projectDescription}}'
+        'org.opencontainers.image.url': '{{projectLinkHomepage}}'
+        'org.opencontainers.image.source': '{{repoUrl}}'
+        'org.opencontainers.image.version': '{{projectVersion}}'
+        'org.opencontainers.image.revision': '{{commitFullHash}}'
+        'org.opencontainers.image.created': '{{Zulu timestamp}}'
+
+announce:
+  twitter:
+    active: RELEASE
+    status: "🚀 {{projectName}} {{projectVersion}} has been released! {{releaseNotesUrl}}"
+
+  mastodon:
+    active: RELEASE
+    host: https://fosstodon.org
+    status: "🚀 {{projectName}} {{projectVersion}} has been released! {{releaseNotesUrl}}"

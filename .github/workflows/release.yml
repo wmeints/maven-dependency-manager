@@ -1,0 +1,115 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            platform: linux-x86_64
+            executable-suffix: ""
+          - os: macos-latest
+            platform: osx-x86_64
+            executable-suffix: ""
+          - os: macos-14
+            platform: osx-aarch_64
+            executable-suffix: ""
+          - os: windows-latest
+            platform: windows-x86_64
+            executable-suffix: ".exe"
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build native executable
+        run: ./mvnw clean package -Dnative -DskipTests
+
+      - name: Create distribution
+        shell: bash
+        run: |
+          mkdir -p out/jreleaser/assemble/mdm/archive
+          
+          # Copy the native executable and rename to mdm
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            cp target/*-runner.exe out/jreleaser/assemble/mdm/archive/mdm.exe
+          else
+            cp target/*-runner out/jreleaser/assemble/mdm/archive/mdm
+            chmod +x out/jreleaser/assemble/mdm/archive/mdm
+          fi
+          
+          # Copy documentation files
+          cp README.md out/jreleaser/assemble/mdm/archive/ || true
+          cp LICENSE* out/jreleaser/assemble/mdm/archive/ || true
+          
+          # Create archives
+          cd out/jreleaser/assemble/mdm/archive
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            powershell Compress-Archive -Path * -DestinationPath mdm-${{ github.ref_name }}-${{ matrix.platform }}.zip
+          else
+            zip -r mdm-${{ github.ref_name }}-${{ matrix.platform }}.zip *
+            tar -czf mdm-${{ github.ref_name }}-${{ matrix.platform }}.tar.gz *
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mdm-${{ matrix.platform }}
+          path: out/jreleaser/assemble/mdm/archive/mdm-*-${{ matrix.platform }}.*
+
+  release:
+    name: Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'temurin'
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: out/jreleaser/assemble/mdm/archive
+
+      - name: Flatten artifacts directory
+        run: |
+          find out/jreleaser/assemble/mdm/archive -name "*.zip" -o -name "*.tar.gz" | while read file; do
+            mv "$file" out/jreleaser/assemble/mdm/archive/
+          done
+          find out/jreleaser/assemble/mdm/archive -type d -empty -delete
+
+      - name: Release with JReleaser
+        env:
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./mvnw jreleaser:full-release
