@@ -11,7 +11,7 @@ import static org.mockito.Mockito.*;
 import java.util.Arrays;
 import java.util.Collections;
 
-class DependencyResolverServiceTest {
+class MavenDependencyResolverTest {
 
     @Mock
     private MavenRepositorySearch repositorySearch;

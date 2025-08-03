@@ -40,11 +40,43 @@ public class SearchCommand implements Runnable {
 
     @Override
     public void run() {
+        try {
+            executeSearch();
+        } catch (SearchCommandException e) {
+            // Print error message and examples if applicable
+            System.err.println("Error: " + e.getMessage());
+            if (e.shouldShowExamples()) {
+                System.err.println();
+                System.err.println("Examples:");
+                System.err.println("  search spring-boot");
+                System.err.println("  search org.springframework:spring-core");
+            }
+            if (e.shouldShowHelpInfo()) {
+                System.err.println("Use --help for usage information");
+            }
+            // Throw the exception to allow Picocli to handle it appropriately
+            throw new CommandLine.ExecutionException(new CommandLine(SearchCommand.class), e.getMessage(), e);
+        } catch (Exception e) {
+            LOGGER.severe("Search failed: " + e.getMessage());
+            System.err.println("Error: Failed to search for dependencies");
+            System.err.println("Details: " + e.getMessage());
+            
+            if (e.getMessage() != null && (e.getMessage().contains("UnknownHostException") || 
+                e.getMessage().contains("ConnectException"))) {
+                System.err.println("Please check your internet connection and try again.");
+            }
+            
+            // Throw the exception to allow Picocli to handle it appropriately
+            throw new CommandLine.ExecutionException(new CommandLine(SearchCommand.class), "Search failed", e);
+        }
+    }
+    
+    /**
+     * Executes the search logic, separated for better testability.
+     */
+    void executeSearch() throws SearchCommandException {
         if (query == null || query.trim().isEmpty()) {
-            System.err.println("Error: Search query is required");
-            System.err.println("Use --help for usage information");
-            System.exit(1);
-            return;
+            throw new SearchCommandException("Search query is required", true, false);
         }
         
         try {
@@ -67,24 +99,38 @@ public class SearchCommand implements Runnable {
                     results.size() == 1 ? "dependency" : "dependencies");
             
         } catch (IllegalArgumentException e) {
-            System.err.println("Error: " + e.getMessage());
-            System.err.println();
-            System.err.println("Examples:");
-            System.err.println("  search spring-boot");
-            System.err.println("  search org.springframework:spring-core");
-            System.exit(1);
-            
+            throw new SearchCommandException(e.getMessage(), false, true);
         } catch (Exception e) {
-            LOGGER.severe("Search failed: " + e.getMessage());
-            System.err.println("Error: Failed to search for dependencies");
-            System.err.println("Details: " + e.getMessage());
-            
-            if (e.getMessage().contains("UnknownHostException") || 
-                e.getMessage().contains("ConnectException")) {
-                System.err.println("Please check your internet connection and try again.");
-            }
-            
-            System.exit(1);
+            throw new SearchCommandException("Failed to search for dependencies: " + e.getMessage(), false, false, e);
+        }
+    }
+    
+    /**
+     * Custom exception for SearchCommand errors with context about what additional
+     * information should be shown to the user.
+     */
+    public static class SearchCommandException extends Exception {
+        private final boolean showHelpInfo;
+        private final boolean showExamples;
+        
+        public SearchCommandException(String message, boolean showHelpInfo, boolean showExamples) {
+            super(message);
+            this.showHelpInfo = showHelpInfo;
+            this.showExamples = showExamples;
+        }
+        
+        public SearchCommandException(String message, boolean showHelpInfo, boolean showExamples, Throwable cause) {
+            super(message, cause);
+            this.showHelpInfo = showHelpInfo;
+            this.showExamples = showExamples;
+        }
+        
+        public boolean shouldShowHelpInfo() {
+            return showHelpInfo;
+        }
+        
+        public boolean shouldShowExamples() {
+            return showExamples;
         }
     }
 }
