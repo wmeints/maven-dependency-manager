@@ -25,8 +25,10 @@ add dependencies and search for them in Maven repositories.
 # Run in development mode with live coding
 ./mvnw quarkus:dev
 
-# Run with command-line arguments in dev mode
-./mvnw quarkus:dev -Dquarkus.args='search spring-boot'
+# Run with command-line arguments in dev mode (examples)
+./mvnw quarkus:dev -Dquarkus.args='search jackson'
+./mvnw quarkus:dev -Dquarkus.args='search org.springframework:spring-core'
+./mvnw quarkus:dev -Dquarkus.args='--help'
 ```
 
 ### Building and Packaging
@@ -99,8 +101,27 @@ The application follows a hierarchical command structure using Picocli:
 
 ### Current Implementation Status
 
-Both `AddDependencyCommand` and `SearchCommand` have placeholder implementations with 
-empty `run()` methods - they need to be implemented with actual functionality.
+- **SearchCommand**: Fully implemented with Maven Central Search API integration
+  - Supports both keyword searches (`search jackson`) and exact searches (`search org.springframework:spring-core`)
+  - Displays results in formatted table with GroupId, ArtifactId, and Latest version
+  - Includes comprehensive error handling and user-friendly messages
+  - Uses Maven Central Search API for dependency discovery
+- **AddDependencyCommand**: Has placeholder implementation - needs to be implemented
+
+### Search Command Usage
+
+The search command supports two search patterns:
+
+1. **Keyword Search**: `search <keywords>`
+   - Example: `search jackson` - finds all dependencies with "jackson" in their metadata
+   
+2. **Exact Search**: `search <groupId>:<artifactId>`
+   - Example: `search org.springframework:spring-core` - finds exact match for the specified dependency
+
+The command will display results in a formatted table showing:
+- GroupId: The Maven groupId
+- ArtifactId: The Maven artifactId  
+- Latest version: The most recent version available
 
 ### Docker Support
 Multiple Dockerfile variants available in `src/main/docker/`:
