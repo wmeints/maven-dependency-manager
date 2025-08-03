@@ -1,6 +1,6 @@
 package nl.fizzylogic.maven.dependencymanager.commands;
 
-import nl.fizzylogic.maven.dependencymanager.MavenRepositorySearch;
+import nl.fizzylogic.maven.dependencymanager.services.MavenRepositorySearch;
 import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
 import nl.fizzylogic.maven.dependencymanager.util.TableFormatter;
 

@@ -1,4 +1,4 @@
-package nl.fizzylogic.maven.dependencymanager;
+package nl.fizzylogic.maven.dependencymanager.services;
 
 import nl.fizzylogic.maven.dependencymanager.model.DependencyCoordinates;
 import nl.fizzylogic.maven.dependencymanager.model.ResolvedDependency;

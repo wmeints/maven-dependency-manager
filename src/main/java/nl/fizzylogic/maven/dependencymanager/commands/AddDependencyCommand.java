@@ -1,8 +1,8 @@
 package nl.fizzylogic.maven.dependencymanager.commands;
 
 import jakarta.inject.Inject;
-import nl.fizzylogic.maven.dependencymanager.MavenDependencyResolver;
-import nl.fizzylogic.maven.dependencymanager.ProjectModelEditor;
+import nl.fizzylogic.maven.dependencymanager.services.MavenDependencyResolver;
+import nl.fizzylogic.maven.dependencymanager.services.ProjectModelEditor;
 import nl.fizzylogic.maven.dependencymanager.model.DependencyCoordinates;
 import nl.fizzylogic.maven.dependencymanager.model.ResolvedDependency;
 import picocli.CommandLine.Command;

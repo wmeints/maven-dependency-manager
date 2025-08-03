@@ -1,4 +1,4 @@
-package nl.fizzylogic.maven.dependencymanager;
+package nl.fizzylogic.maven.dependencymanager.services;
 
 import org.apache.maven.settings.Profile;
 import org.apache.maven.settings.Repository;
