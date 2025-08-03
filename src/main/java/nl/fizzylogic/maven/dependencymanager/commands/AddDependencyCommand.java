@@ -3,6 +3,7 @@ package nl.fizzylogic.maven.dependencymanager.commands;
 import jakarta.inject.Inject;
 import nl.fizzylogic.maven.dependencymanager.MavenDependencyResolver;
 import nl.fizzylogic.maven.dependencymanager.ProjectModelEditor;
+import nl.fizzylogic.maven.dependencymanager.model.DependencyCoordinates;
 import nl.fizzylogic.maven.dependencymanager.model.ResolvedDependency;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
@@ -129,39 +130,4 @@ public class AddDependencyCommand implements Runnable {
         return new DependencyCoordinates(groupId, artifactId, version);
     }
 
-    /**
-     * Simple value class to hold dependency coordinates
-     */
-    public static class DependencyCoordinates {
-        private final String groupId;
-        private final String artifactId;
-        private final String version;
-
-        public DependencyCoordinates(String groupId, String artifactId, String version) {
-            this.groupId = groupId;
-            this.artifactId = artifactId;
-            this.version = version;
-        }
-
-        public String getGroupId() {
-            return groupId;
-        }
-
-        public String getArtifactId() {
-            return artifactId;
-        }
-
-        public String getVersion() {
-            return version;
-        }
-
-        public boolean hasVersion() {
-            return version != null;
-        }
-
-        @Override
-        public String toString() {
-            return groupId + ":" + artifactId + (version != null ? ":" + version : "");
-        }
-    }
 }

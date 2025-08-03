@@ -1,5 +1,6 @@
 package nl.fizzylogic.maven.dependencymanager.commands;
 
+import nl.fizzylogic.maven.dependencymanager.model.DependencyCoordinates;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +18,7 @@ class AddDependencyCommandTest {
     void testParseCoordinatesWithVersion() {
         command.dependencyCoordinates = "org.springframework:spring-core:5.3.21";
         
-        AddDependencyCommand.DependencyCoordinates coords = 
+        DependencyCoordinates coords = 
             command.parseDependencyCoordinates("org.springframework:spring-core:5.3.21");
         
         assertEquals("org.springframework", coords.getGroupId());
@@ -28,7 +29,7 @@ class AddDependencyCommandTest {
 
     @Test
     void testParseCoordinatesWithoutVersion() {
-        AddDependencyCommand.DependencyCoordinates coords = 
+        DependencyCoordinates coords = 
             command.parseDependencyCoordinates("org.springframework:spring-core");
         
         assertEquals("org.springframework", coords.getGroupId());
@@ -39,7 +40,7 @@ class AddDependencyCommandTest {
 
     @Test
     void testParseCoordinatesWithSpaces() {
-        AddDependencyCommand.DependencyCoordinates coords = 
+        DependencyCoordinates coords = 
             command.parseDependencyCoordinates(" org.springframework : spring-core : 5.3.21 ");
         
         assertEquals("org.springframework", coords.getGroupId());
@@ -90,12 +91,12 @@ class AddDependencyCommandTest {
 
     @Test
     void testDependencyCoordinatesToString() {
-        AddDependencyCommand.DependencyCoordinates coordsWithVersion = 
-            new AddDependencyCommand.DependencyCoordinates("org.springframework", "spring-core", "5.3.21");
+        DependencyCoordinates coordsWithVersion = 
+            new DependencyCoordinates("org.springframework", "spring-core", "5.3.21");
         assertEquals("org.springframework:spring-core:5.3.21", coordsWithVersion.toString());
         
-        AddDependencyCommand.DependencyCoordinates coordsWithoutVersion = 
-            new AddDependencyCommand.DependencyCoordinates("org.springframework", "spring-core", null);
+        DependencyCoordinates coordsWithoutVersion = 
+            new DependencyCoordinates("org.springframework", "spring-core", null);
         assertEquals("org.springframework:spring-core", coordsWithoutVersion.toString());
     }
 }

@@ -1,6 +1,6 @@
 package nl.fizzylogic.maven.dependencymanager;
 
-import nl.fizzylogic.maven.dependencymanager.commands.AddDependencyCommand;
+import nl.fizzylogic.maven.dependencymanager.model.DependencyCoordinates;
 import nl.fizzylogic.maven.dependencymanager.model.ResolvedDependency;
 import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
 import org.junit.jupiter.api.Test;
@@ -85,8 +85,8 @@ class MavenDependencyResolverTest {
         when(repositorySearch.execute("org.junit.jupiter:junit-jupiter:5.8.2"))
             .thenReturn(Arrays.asList(mockResult));
         
-        AddDependencyCommand.DependencyCoordinates coordinates = 
-            new AddDependencyCommand.DependencyCoordinates("org.junit.jupiter", "junit-jupiter", "5.8.2");
+        DependencyCoordinates coordinates = 
+            new DependencyCoordinates("org.junit.jupiter", "junit-jupiter", "5.8.2");
         
         ResolvedDependency resolved = 
             resolverService.resolveDependency(coordinates);
@@ -104,8 +104,8 @@ class MavenDependencyResolverTest {
         when(repositorySearch.execute("org.junit.jupiter:junit-jupiter"))
             .thenReturn(Arrays.asList(mockResult));
         
-        AddDependencyCommand.DependencyCoordinates coordinates = 
-            new AddDependencyCommand.DependencyCoordinates("org.junit.jupiter", "junit-jupiter", null);
+        DependencyCoordinates coordinates = 
+            new DependencyCoordinates("org.junit.jupiter", "junit-jupiter", null);
         
         ResolvedDependency resolved = 
             resolverService.resolveDependency(coordinates);

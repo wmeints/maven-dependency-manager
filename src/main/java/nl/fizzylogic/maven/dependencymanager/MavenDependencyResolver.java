@@ -1,6 +1,6 @@
 package nl.fizzylogic.maven.dependencymanager;
 
-import nl.fizzylogic.maven.dependencymanager.commands.AddDependencyCommand;
+import nl.fizzylogic.maven.dependencymanager.model.DependencyCoordinates;
 import nl.fizzylogic.maven.dependencymanager.model.ResolvedDependency;
 import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -85,7 +85,7 @@ public class MavenDependencyResolver {
      * @param coordinates The dependency coordinates
      * @return ResolvedDependency with the resolved version, or null if resolution failed
      */
-    public ResolvedDependency resolveDependency(AddDependencyCommand.DependencyCoordinates coordinates) {
+    public ResolvedDependency resolveDependency(DependencyCoordinates coordinates) {
         String groupId = coordinates.getGroupId();
         String artifactId = coordinates.getArtifactId();
         String version = coordinates.getVersion();
