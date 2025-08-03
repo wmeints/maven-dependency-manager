@@ -1,8 +1,8 @@
-package com.infosupport.maven;
+package nl.fizzylogic.maven.dependencymanager;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.infosupport.maven.model.SearchResult;
+import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

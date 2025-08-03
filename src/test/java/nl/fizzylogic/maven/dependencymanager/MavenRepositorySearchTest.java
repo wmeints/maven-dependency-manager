@@ -1,4 +1,4 @@
-package com.infosupport.maven;
+package nl.fizzylogic.maven.dependencymanager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

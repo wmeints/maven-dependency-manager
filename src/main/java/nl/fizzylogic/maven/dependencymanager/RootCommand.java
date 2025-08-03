@@ -1,4 +1,4 @@
-package com.infosupport.maven;
+package nl.fizzylogic.maven.dependencymanager;
 
 import io.quarkus.picocli.runtime.annotations.TopCommand;
 import picocli.CommandLine.Command;

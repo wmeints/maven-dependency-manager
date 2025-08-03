@@ -1,7 +1,7 @@
-package com.infosupport.maven;
+package nl.fizzylogic.maven.dependencymanager;
 
-import com.infosupport.maven.model.SearchResult;
-import com.infosupport.maven.util.TableFormatter;
+import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
+import nl.fizzylogic.maven.dependencymanager.util.TableFormatter;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Parameters;

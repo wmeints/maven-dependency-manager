@@ -1,6 +1,6 @@
-package com.infosupport.maven;
+package nl.fizzylogic.maven.dependencymanager;
 
-import com.infosupport.maven.model.SearchResult;
+import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;

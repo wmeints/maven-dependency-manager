@@ -1,6 +1,6 @@
-package com.infosupport.maven.util;
+package nl.fizzylogic.maven.dependencymanager.util;
 
-import com.infosupport.maven.model.SearchResult;
+import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

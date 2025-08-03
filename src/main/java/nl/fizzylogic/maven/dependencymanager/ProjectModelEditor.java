@@ -1,4 +1,4 @@
-package com.infosupport.maven;
+package nl.fizzylogic.maven.dependencymanager;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.maven.model.Dependency;

@@ -1,4 +1,4 @@
-package com.infosupport.maven.model;
+package nl.fizzylogic.maven.dependencymanager.model;
 
 /**
  * Represents a search result for a Maven dependency.

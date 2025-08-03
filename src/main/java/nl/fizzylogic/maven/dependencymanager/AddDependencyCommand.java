@@ -1,4 +1,4 @@
-package com.infosupport.maven;
+package nl.fizzylogic.maven.dependencymanager;
 
 import jakarta.inject.Inject;
 import picocli.CommandLine.Command;
