@@ -1,5 +1,6 @@
 package nl.fizzylogic.maven.dependencymanager;
 
+import nl.fizzylogic.maven.dependencymanager.commands.AddDependencyCommand;
 import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;

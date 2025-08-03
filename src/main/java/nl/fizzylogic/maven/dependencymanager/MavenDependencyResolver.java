@@ -1,5 +1,6 @@
 package nl.fizzylogic.maven.dependencymanager;
 
+import nl.fizzylogic.maven.dependencymanager.commands.AddDependencyCommand;
 import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

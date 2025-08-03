@@ -1,5 +1,6 @@
-package nl.fizzylogic.maven.dependencymanager;
+package nl.fizzylogic.maven.dependencymanager.commands;
 
+import nl.fizzylogic.maven.dependencymanager.MavenRepositorySearch;
 import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
 import nl.fizzylogic.maven.dependencymanager.util.TableFormatter;
 
@@ -22,9 +23,9 @@ import java.util.logging.Logger;
         "  search org.springframework:spring-core  # Exact groupId:artifactId search"
     }
 )
-public class SearchCommand implements Runnable {
+public class SearchDependencyCommand implements Runnable {
     
-    private static final Logger LOGGER = Logger.getLogger(SearchCommand.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SearchDependencyCommand.class.getName());
     
     @Parameters(
         paramLabel = "QUERY", 
@@ -55,7 +56,7 @@ public class SearchCommand implements Runnable {
                 System.err.println("Use --help for usage information");
             }
             // Throw the exception to allow Picocli to handle it appropriately
-            throw new CommandLine.ExecutionException(new CommandLine(SearchCommand.class), e.getMessage(), e);
+            throw new CommandLine.ExecutionException(new CommandLine(SearchDependencyCommand.class), e.getMessage(), e);
         } catch (Exception e) {
             LOGGER.severe("Search failed: " + e.getMessage());
             System.err.println("Error: Failed to search for dependencies");
@@ -67,7 +68,7 @@ public class SearchCommand implements Runnable {
             }
             
             // Throw the exception to allow Picocli to handle it appropriately
-            throw new CommandLine.ExecutionException(new CommandLine(SearchCommand.class), "Search failed", e);
+            throw new CommandLine.ExecutionException(new CommandLine(SearchDependencyCommand.class), "Search failed", e);
         }
     }
     

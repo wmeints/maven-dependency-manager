@@ -1,6 +1,8 @@
-package nl.fizzylogic.maven.dependencymanager;
+package nl.fizzylogic.maven.dependencymanager.commands;
 
 import jakarta.inject.Inject;
+import nl.fizzylogic.maven.dependencymanager.MavenDependencyResolver;
+import nl.fizzylogic.maven.dependencymanager.ProjectModelEditor;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 

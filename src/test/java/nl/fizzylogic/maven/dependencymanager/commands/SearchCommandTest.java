@@ -1,5 +1,7 @@
-package nl.fizzylogic.maven.dependencymanager;
+package nl.fizzylogic.maven.dependencymanager.commands;
 
+import nl.fizzylogic.maven.dependencymanager.MavenRepositorySearch;
+import nl.fizzylogic.maven.dependencymanager.commands.SearchDependencyCommand;
 import nl.fizzylogic.maven.dependencymanager.model.SearchResult;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +36,7 @@ class SearchCommandTest {
     private MavenRepositorySearch searchService;
 
     @InjectMocks
-    private SearchCommand searchCommand;
+    private SearchDependencyCommand searchCommand;
 
     private ByteArrayOutputStream outputStream;
     private ByteArrayOutputStream errorStream;
@@ -144,8 +146,8 @@ class SearchCommandTest {
         searchCommand.query = null;
 
         // When & Then
-        SearchCommand.SearchCommandException exception = assertThrows(
-            SearchCommand.SearchCommandException.class, 
+        SearchDependencyCommand.SearchCommandException exception = assertThrows(
+            SearchDependencyCommand.SearchCommandException.class, 
             () -> searchCommand.executeSearch()
         );
         
@@ -161,8 +163,8 @@ class SearchCommandTest {
         searchCommand.query = "";
 
         // When & Then
-        SearchCommand.SearchCommandException exception = assertThrows(
-            SearchCommand.SearchCommandException.class, 
+        SearchDependencyCommand.SearchCommandException exception = assertThrows(
+            SearchDependencyCommand.SearchCommandException.class, 
             () -> searchCommand.executeSearch()
         );
         
@@ -178,8 +180,8 @@ class SearchCommandTest {
         searchCommand.query = "   ";
 
         // When & Then
-        SearchCommand.SearchCommandException exception = assertThrows(
-            SearchCommand.SearchCommandException.class, 
+        SearchDependencyCommand.SearchCommandException exception = assertThrows(
+            SearchDependencyCommand.SearchCommandException.class, 
             () -> searchCommand.executeSearch()
         );
         
@@ -197,8 +199,8 @@ class SearchCommandTest {
             .thenThrow(new IllegalArgumentException("Invalid format"));
 
         // When & Then
-        SearchCommand.SearchCommandException exception = assertThrows(
-            SearchCommand.SearchCommandException.class, 
+        SearchDependencyCommand.SearchCommandException exception = assertThrows(
+            SearchDependencyCommand.SearchCommandException.class, 
             () -> searchCommand.executeSearch()
         );
         
@@ -216,8 +218,8 @@ class SearchCommandTest {
         when(searchService.execute("spring-boot")).thenThrow(ioException);
 
         // When & Then
-        SearchCommand.SearchCommandException exception = assertThrows(
-            SearchCommand.SearchCommandException.class, 
+        SearchDependencyCommand.SearchCommandException exception = assertThrows(
+            SearchDependencyCommand.SearchCommandException.class, 
             () -> searchCommand.executeSearch()
         );
         
@@ -237,8 +239,8 @@ class SearchCommandTest {
         when(searchService.execute("spring-boot")).thenThrow(interruptedException);
 
         // When & Then
-        SearchCommand.SearchCommandException exception = assertThrows(
-            SearchCommand.SearchCommandException.class, 
+        SearchDependencyCommand.SearchCommandException exception = assertThrows(
+            SearchDependencyCommand.SearchCommandException.class, 
             () -> searchCommand.executeSearch()
         );
         
